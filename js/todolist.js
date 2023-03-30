@@ -14,7 +14,6 @@ const getAllTodos = () => {
 	return todos;
 }
 
-//concat 문자열을 합치는 함수 배열을 계속해서 붙쳐준다.
 const appendTodos = (text) => {
 	const newId = Date.now();
 	const newTodos = getAllTodos().concat({id: newId, isCompleted: false, content: text});
@@ -23,7 +22,6 @@ const appendTodos = (text) => {
 	saveToDos();
 }
 
-//map 주어진 함수를 조건에 맞게 변경후 반환
 const completeTodo = (todoId) => {
 	const newTodos = getAllTodos().map(todo => todo.id === todoId ? {...todo, isCompleted: !todo.isCompleted} : todo);
 	setTodos(newTodos);
@@ -53,18 +51,16 @@ const onDbclickTodo = (e, todoId) => {
 	const inputElem = document.createElement('input');
 	inputElem.value = inputText;
 	inputElem.classList.add('edit-input');
+	inputElem.setAttribute('maxlength', '15');
 
 	inputElem.addEventListener('keypress', (e) => {
 		if(e.key === 'Enter' && e.target.value !== '') {
 			updateTodo(e.target.value, todoId);
-			document.body.removeEventListener('click', onClickBody);
 		}
 	})
-	//body를 클릭했을때 탈출
 	const onClickBody = (e) => {
 		if (e.target !== inputElem) {
 			todoItem.removeChild(inputElem);
-			document.body.removeEventListener('click', onClickBody);
 		}
 	}
 	document.body.addEventListener('click', onClickBody);
@@ -119,7 +115,6 @@ const paintTodos = () => {
 	})
 }
 
-//input요소로부터 이벤트리스너를 등록하여, 캐치한후, 입력받은 데이터를 배열에 순차적으로 담아준다.
 const init = () => {
 	todoInput.addEventListener('keypress', (e) =>{
 		if (e.key === 'Enter' && e.target.value !== ''){
